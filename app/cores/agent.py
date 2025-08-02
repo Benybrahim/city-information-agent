@@ -44,12 +44,12 @@ class CityAssistantAgent:
         prompt = """
         You are a city information assistant.
         Fetch information using following tools: cit_facts_tool, weather_tool, time_tool
-        Reply in one line, and always end with a question.
         Output format:
         {
             "thinking": "Explain reasoning",
             "function_calls": [
-                { "tool": "tool name (without functions.)", "parameters": { ... tool input ... } },
+                { "tool": "tool name without .functions", 
+                  "parameters": { ... tool input without '*_input': ...},
                     ...
             ],
             "response": "response in one line, and end with a question"
@@ -75,7 +75,7 @@ class CityAssistantAgent:
         {
             "thinking": "Explain reasoning",
             "function_calls": [
-                { "tool": "tool name", "parameters": { ... tool input ... } },
+                { "tool": "tool name", "parameters": {value of tool input} },
                 ...
             ],
             "response": "response here"
