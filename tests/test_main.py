@@ -1,7 +1,5 @@
-import pytest
 from fastapi.testclient import TestClient
 from app.main import app
-from app.schemas.schemas import ChatRequest, ChatResponse
 
 client = TestClient(app)
 
@@ -35,6 +33,7 @@ def test_chat_handles_followup():
     assert isinstance(data["thinking"], str)
     assert isinstance(data["response"], str)
     assert isinstance(data["function_calls"], list)
+
 
 def test_invalid_request_body():
     """Test error for completely missing 'message'."""

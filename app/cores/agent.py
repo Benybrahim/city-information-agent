@@ -36,7 +36,9 @@ class CityAssistantAgent:
         :param ctx: RunContextWrapper instance.
         :param input_data: HandoffInfo instance with handoff metadata.
         """
-        logger.info(f"Handoff to '{input_data.subagent_name}' because '{input_data.reason}'")
+        logger.info(
+            f"Handoff to '{input_data.subagent_name}' because '{input_data.reason}'"
+        )
 
     def _build_city_summary_agent(self) -> Agent:
         """Create the city summary agent."""
@@ -108,7 +110,8 @@ class CityAssistantAgent:
                     input_filter=handoff_filters.remove_all_tools,
                 ),
             ],
-            instructions=RECOMMENDED_PROMPT_PREFIX + """
+            instructions=RECOMMENDED_PROMPT_PREFIX
+            + """
             Your only job is to decide which subagent should handle the request.
 
             - If the user asks about a city, always delegate to the City summary agent.
