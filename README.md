@@ -11,12 +11,12 @@ A modern AI system that turns natural language queries into city insights and tr
 
 ---
 
-## 📚 Reports & Documentation
+## 📚 Documentation
 
-* [System Architecture Diagram](./docs/architecture.svg)
-* [Tech Stack Justification](docs/tech-selection.md)
-* [Design Innovations](docs/design-innovations.md)
-* [Challenges & Future Work](docs/challenges.md)
+- [How It Works](https://github.com/Benybrahim/city-information-agent/wiki/How-It-Works)
+- [API Overview](https://github.com/Benybrahim/city-information-agent/wiki/API-Reference)
+- [Agents Overview](https://github.com/Benybrahim/city-information-agent/wiki/Agents)
+- [Tools Overview](https://github.com/Benybrahim/city-information-agent/wiki/Tools)
 
 ---
 
