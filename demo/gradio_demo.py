@@ -3,8 +3,10 @@ import gradio as gr
 import json
 
 API_URL = "http://localhost:8000/chat"
-WELCOME_MSG = ("🌏 Welcome! I’m your AI travel assistant. "
-               "Ask me about any city for tips, weather, time, or fun facts!")
+WELCOME_MSG = (
+    "🌏 Welcome! I’m your AI travel assistant. "
+    "Ask me about any city for tips, weather, time, or fun facts!"
+)
 
 
 def travel_chat(user_message, history):

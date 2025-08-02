@@ -64,7 +64,6 @@ class CityAssistantAgent:
         )
         return agent
 
-
     def _build_trip_discussion_agent(self) -> Agent:
         """Create the trip discussion agent."""
         logger.debug("Building TripDiscussionAgent.")
@@ -112,7 +111,7 @@ class CityAssistantAgent:
                     on_handoff=self.on_handoff,
                     input_type=HandoffInfo,
                     input_filter=handoff_filters.remove_all_tools,
-                )
+                ),
             ],
             instructions=RECOMMENDED_PROMPT_PREFIX + prompt,
             model=self.model,

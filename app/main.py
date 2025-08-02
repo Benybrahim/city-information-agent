@@ -36,6 +36,11 @@ async def general_exception_handler(request: Request, exc: Exception) -> JSONRes
     )
 
 
+@app.get("/health")
+async def health() -> JSONResponse:
+    return {"status": "ok"}
+
+
 @app.post("/chat", response_model=ChatResponse)
 async def chat_endpoint(req: ChatRequest) -> ChatResponse | None:
     """
