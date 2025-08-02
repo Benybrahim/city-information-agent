@@ -46,9 +46,8 @@ async def chat_endpoint(req: ChatRequest) -> ChatResponse | None:
     """
     try:
         result = await Runner.run(agent, req.message, session=session)
-        print(result.final_output)
+        logger.info(f"Output: {result}")
         data = json.loads(result.final_output)
-        logger.info(f"Output: {data}")
         return ChatResponse(**data)
     except Exception as exc:
         logger.exception(f"Error running agent: {exc}")

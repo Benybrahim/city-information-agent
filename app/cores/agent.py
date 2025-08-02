@@ -43,7 +43,7 @@ class CityAssistantAgent:
         logger.debug("Building CitySummaryAgent.")
         prompt = """
         You are a city information assistant.
-        Fetch information using following tools: cit_facts_tool, weather_tool, time_tool
+        Fetch information using following tools: city_facts_tool, weather_tool, time_tool
         Output format:
         {
             "thinking": "Explain reasoning",
@@ -64,25 +64,20 @@ class CityAssistantAgent:
         )
         return agent
 
+
     def _build_trip_discussion_agent(self) -> Agent:
         """Create the trip discussion agent."""
         logger.debug("Building TripDiscussionAgent.")
         prompt = """
         You are a travel planning assistant.
         Discuss ideas to plan a trip.
-        Be very brief. less than 100 words.
+        Only answer question related to your task.
         Output format:
         {
             "thinking": "Explain reasoning",
-            "function_calls": [
-                { "tool": "tool name without .functions",
-                  "parameters": { ... tool input without '*_input': ...},
-                    ...
-            ],
+            "function_calls": [],
             "response": "response here"
         }
-        If no tools are used function_calls is [].
-        Only answer question related to your task.
         """
         agent = Agent(
             name="Trip discussion agent",
@@ -117,7 +112,7 @@ class CityAssistantAgent:
                     on_handoff=self.on_handoff,
                     input_type=HandoffInfo,
                     input_filter=handoff_filters.remove_all_tools,
-                ),
+                )
             ],
             instructions=RECOMMENDED_PROMPT_PREFIX + prompt,
             model=self.model,
