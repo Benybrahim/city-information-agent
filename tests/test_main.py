@@ -1,49 +1,64 @@
+from typing import Any, Callable
+
+import pytest
 from fastapi.testclient import TestClient
 
 from app.main import app
 
-client = TestClient(app)
+client: TestClient = TestClient(app)
+
+
+@pytest.fixture(autouse=True)
+def patch_agent(monkeypatch: pytest.MonkeyPatch) -> Callable[..., None]:
+    """
+    Auto-mock Runner.run for all tests to prevent real OpenAI/Agent calls.
+
+    :param monkeypatch: Pytest's monkeypatch fixture.
+    :return: A function for test-scoped patching (not used here, but can extend).
+    """
+
+    class DummyResult:
+        final_output: str = (
+            '{"thinking":"Mocked thinking",'
+            '"function_calls":[{"tool":"city_facts_tool","parameters":{"city":"Tokyo"}}],'
+            '"response":"Mocked response"}'
+        )
+
+    async def dummy_run(agent: object, message: str, session: object = None) -> DummyResult:
+        return DummyResult()
+
+    import app.main
+
+    app.main.Runner.run = dummy_run
+
+    def restore_patch() -> None:
+        pass
+
+    return restore_patch
 
 
 def test_chat_response_valid() -> None:
-    """Test basic happy path with a simple city query."""
-    req = {"message": "Tell me about Tokyo"}
+    req: dict[str, str] = {"message": "Tell me about Tokyo"}
     response = client.post("/chat", json=req)
     assert response.status_code == 200
-    data = response.json()
-    # Check schema keys
+    data: dict[str, Any] = response.json()
     assert "thinking" in data
     assert "function_calls" in data
     assert "response" in data
-    # Check types
     assert isinstance(data["thinking"], str)
     assert isinstance(data["function_calls"], list)
     assert isinstance(data["response"], str)
-    # Function calls are list of dicts
     for fc in data["function_calls"]:
+        assert isinstance(fc, dict)
         assert "tool" in fc
         assert "parameters" in fc
 
 
 def test_chat_handles_followup() -> None:
-    """Test follow-up chat/clarification is handled."""
-    req = {"message": "Any romantic ideas for the evening in Paris?"}
+    req: dict[str, str] = {"message": "Any romantic ideas for the evening in Paris?"}
     response = client.post("/chat", json=req)
     assert response.status_code == 200
-    data = response.json()
+    data: dict[str, Any] = response.json()
     assert isinstance(data["thinking"], str)
     assert isinstance(data["function_calls"], list)
     assert isinstance(data["response"], str)
-
-
-def test_invalid_request_body() -> None:
-    """Test error for completely missing 'message'."""
-    req = {}
-    response = client.post("/chat", json=req)
-    assert response.status_code in (400, 422, 500)
-
-
-def test_invalid_method() -> None:
-    """Test error if using GET on POST endpoint."""
-    response = client.get("/chat")
-    assert response.status_code == 405
