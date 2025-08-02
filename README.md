@@ -2,8 +2,6 @@
 
 A modern AI system that turns natural language queries into city insights and travel recommendations—using OpenAI Agents, tool orchestration, and real-time APIs.
 
-<img src="./docs/architecture.svg" width="100%">
-
 ---
 
 [![Try it Online](https://img.shields.io/badge/Live%20Demo-Gradio-blue?logo=gradio\&logoColor=white)](https://your-gradio-link.here)
