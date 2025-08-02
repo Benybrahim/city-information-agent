@@ -1,18 +1,13 @@
+import requests
+import gradio as gr
 import json
 
-import gradio as gr
-import requests
-
 API_URL = "http://localhost:8000/chat"
-WELCOME_MSG = (
-    "🌏 Welcome! I’m your AI travel assistant. "
-    "Ask me about any city for tips, weather, time, or fun facts!"
-)
+WELCOME_MSG = ("🌏 Welcome! I’m your AI travel assistant. "
+               "Ask me about any city for tips, weather, time, or fun facts!")
 
 
-def travel_chat(
-    user_message: str, history: list[tuple[str, str]]
-) -> list[tuple[str, str], tuple[str, str], str]:
+def travel_chat(user_message, history):
     """
     Sends the user message to the API and returns the chat history with pretty formatting.
     """
@@ -44,7 +39,7 @@ def travel_chat(
     return history, history, ""
 
 
-def clear_history() -> tuple[list[tuple[None, str]], list[tuple[None, str]]]:
+def clear_history():
     """Resets chat history to initial welcome message."""
     return [(None, WELCOME_MSG)], [(None, WELCOME_MSG)]
 
@@ -52,9 +47,9 @@ def clear_history() -> tuple[list[tuple[None, str]], list[tuple[None, str]]]:
 with gr.Blocks(theme=gr.themes.Soft()) as demo:
     gr.Markdown("# 🌏 AI Travel Assistant Chat")
     chatbot = gr.Chatbot(
-        value=[{"role": "assistant", "content": WELCOME_MSG}],
+        value=[(None, WELCOME_MSG)],
         label="Travel Chat",
-        type="messages",
+        type="tuples",
     )
     msg = gr.Textbox(placeholder="Ask me about any city...", label="Your Message")
     clear = gr.Button("Clear")
