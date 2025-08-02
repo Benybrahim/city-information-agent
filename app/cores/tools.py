@@ -1,10 +1,12 @@
 """City information retrieval tools."""
 
-import os
-import httpx
 import logging
-from dotenv import load_dotenv
+import os
+
+import httpx
 from agents import function_tool
+from dotenv import load_dotenv
+
 from app.schemas.schemas import CityInput
 from app.utils.general import get_lat_long
 

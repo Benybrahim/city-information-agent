@@ -1,12 +1,18 @@
-import requests
-import gradio as gr
 import json
 
+import gradio as gr
+import requests
+
 API_URL = "http://localhost:8000/chat"
-WELCOME_MSG = "🌏 Welcome! I’m your AI travel assistant. Ask me about any city for tips, weather, time, or fun facts!"
+WELCOME_MSG = (
+    "🌏 Welcome! I’m your AI travel assistant. "
+    "Ask me about any city for tips, weather, time, or fun facts!"
+)
 
 
-def travel_chat(user_message, history):
+def travel_chat(
+    user_message: str, history: list[tuple[str, str]]
+) -> list[tuple[str, str], tuple[str, str], str]:
     """
     Sends the user message to the API and returns the chat history with pretty formatting.
     """
@@ -38,7 +44,7 @@ def travel_chat(user_message, history):
     return history, history, ""
 
 
-def clear_history():
+def clear_history() -> tuple[list[tuple[None, str]], list[tuple[None, str]]]:
     """Resets chat history to initial welcome message."""
     return [(None, WELCOME_MSG)], [(None, WELCOME_MSG)]
 

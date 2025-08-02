@@ -4,11 +4,11 @@ import json
 import logging
 from uuid import uuid4
 
+from agents import Runner, SQLiteSession
 from dotenv import load_dotenv
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.responses import JSONResponse
 
-from agents import Runner, SQLiteSession
 from app.cores.agent import CityAssistantAgent
 from app.schemas.schemas import ChatRequest, ChatResponse
 
@@ -27,7 +27,7 @@ agent = CityAssistantAgent().get()
 
 
 @app.exception_handler(Exception)
-async def general_exception_handler(request: Request, exc: Exception):
+async def general_exception_handler(request: Request, exc: Exception) -> JSONResponse:
     """Catch all unhandled exceptions and return as JSON."""
     logger.error(f"Unhandled error: {exc}")
     return JSONResponse(
@@ -37,7 +37,7 @@ async def general_exception_handler(request: Request, exc: Exception):
 
 
 @app.post("/chat", response_model=ChatResponse)
-async def chat_endpoint(req: ChatRequest):
+async def chat_endpoint(req: ChatRequest) -> ChatResponse | None:
     """
     Handles incoming chat requests and returns structured agent responses.
 
@@ -52,6 +52,4 @@ async def chat_endpoint(req: ChatRequest):
         return ChatResponse(**data)
     except Exception as exc:
         logger.exception(f"Error running agent: {exc}")
-        raise HTTPException(
-            status_code=500, detail="Assistant failed to process request."
-        )
+        raise HTTPException(status_code=500, detail="Assistant failed to process request.")

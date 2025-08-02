@@ -1,10 +1,11 @@
 from fastapi.testclient import TestClient
+
 from app.main import app
 
 client = TestClient(app)
 
 
-def test_chat_response_valid():
+def test_chat_response_valid() -> None:
     """Test basic happy path with a simple city query."""
     req = {"message": "Tell me about Tokyo"}
     response = client.post("/chat", json=req)
@@ -24,7 +25,7 @@ def test_chat_response_valid():
         assert "parameters" in fc
 
 
-def test_chat_handles_followup():
+def test_chat_handles_followup() -> None:
     """Test follow-up chat/clarification is handled."""
     req = {"message": "Any romantic ideas for the evening in Paris?"}
     response = client.post("/chat", json=req)
@@ -35,14 +36,14 @@ def test_chat_handles_followup():
     assert isinstance(data["function_calls"], list)
 
 
-def test_invalid_request_body():
+def test_invalid_request_body() -> None:
     """Test error for completely missing 'message'."""
     req = {}
     response = client.post("/chat", json=req)
     assert response.status_code in (400, 422, 500)
 
 
-def test_invalid_method():
+def test_invalid_method() -> None:
     """Test error if using GET on POST endpoint."""
     response = client.get("/chat")
     assert response.status_code == 405
