@@ -48,7 +48,7 @@ class CityAssistantAgent:
         {
             "thinking": "Explain reasoning",
             "function_calls": [
-                { "tool": "tool name without .functions", 
+                { "tool": "tool name without .functions",
                   "parameters": { ... tool input without '*_input': ...},
                     ...
             ],
@@ -75,8 +75,9 @@ class CityAssistantAgent:
         {
             "thinking": "Explain reasoning",
             "function_calls": [
-                { "tool": "tool name", "parameters": {value of tool input} },
-                ...
+                { "tool": "tool name without .functions",
+                  "parameters": { ... tool input without '*_input': ...},
+                    ...
             ],
             "response": "response here"
         }

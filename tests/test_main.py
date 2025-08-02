@@ -32,8 +32,8 @@ def test_chat_handles_followup() -> None:
     assert response.status_code == 200
     data = response.json()
     assert isinstance(data["thinking"], str)
-    assert isinstance(data["response"], str)
     assert isinstance(data["function_calls"], list)
+    assert isinstance(data["response"], str)
 
 
 def test_invalid_request_body() -> None:
