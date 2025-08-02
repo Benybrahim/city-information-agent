@@ -5,7 +5,6 @@ A modern AI system that turns natural language queries into city insights and tr
 ---
 
 [![Try it Online](https://img.shields.io/badge/Live%20Demo-Gradio-blue?logo=gradio\&logoColor=white)](https://your-gradio-link.here)
-👉 **[Live Interactive Demo (Travel Chat)]()**
 
 ![City Assistant Demo](demo/demo.gif)
 
